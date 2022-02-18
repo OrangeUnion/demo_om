@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <link rel="stylesheet" href="webjars/bootstrap/5.1.3/css/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="shortcut  icon" th:href="@{/img/titleom.svg}" type="image/x-icon" />
+    <title>Orange对战</title>
+</head>
+<body th:style="'background-image: url(./img/bgcolor.png)'">
+<nav class="navbar navbar-dark s-dark mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" style="color: #f7eeff" href="/">
+            <img th:src="@{/img/titleom.svg}" alt="" height="24" class="d-inline-block align-text-top">
+            Orange Tool
+        </a>
+    </div>
+</nav>
+<div class="container-fluid mb-3">
+    <div class="card text-dark col-lg-12 col-md-6 shadow s-opacity">
+        <div class="card-header border-light text-dark">
+            <span class="h5 fw-bold" style="color: darkmagenta; letter-spacing: 2px">本局比对结果</span>
+        </div>
+        <div class="card-body">
+            <p th:class="${size}" class="mb-3" th:style="${color}" th:text="${msg}"></p>
+            <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
+                本方：
+                <kbd class="shadow-sm" th:text="${our}"></kbd>
+            </p>
+            <p class="h6 mb-3" th:if="${not #strings.isEmpty(you)}">
+                对方：
+                <kbd class="shadow-sm" th:text="${you}"></kbd>
+            </p>
+            <div class="d-grid gap-2 mb-3">
+                <a class="btn btn-outline-pop btn-lg shadow-sm rounded-pill fw-bold" style="letter-spacing: 3px" href="/">返回</a>
+            </div>
+            <div class="form-text text-center">彩票&#127818盟审核群：432307987</div>
+        </div>
+    </div>
+</div>
+<script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+</body>
+</html>
