@@ -36,6 +36,16 @@ public class WinController {
         tagOur = "#" + tagOur.replaceAll("#", "");
         tagYou = "#" + tagYou.replaceAll("#", "");
 
+        //判断O盟
+        String omDataOur = Api.getOmApi(tagOur.replaceAll("#",""));
+        if (omDataOur.contains("\"state\":\"正常\"")) {
+            model.addAttribute("omOur","正常O盟部落");
+        }
+        String omDataYou = Api.getOmApi(tagYou.replaceAll("#",""));
+        if (omDataYou.contains("\"state\":\"正常\"")) {
+            model.addAttribute("omYou","正常O盟部落");
+        }
+
         if (tagOur.equals(tagYou)) {
             model.addAttribute("msg", "同标签？");
             model.addAttribute("color", "color: blue");
