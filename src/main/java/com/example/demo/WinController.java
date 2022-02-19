@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.clients.BZLMClient;
+import com.example.demo.utils.PrettyPrint;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +47,19 @@ public class WinController {
         String omDataYou = Api.getOmApi(tagYou.replaceAll("#",""));
         if (omDataYou.contains("\"state\":\"正常\"")) {
             model.addAttribute("omYou","正常O盟部落");
+        }
+
+        //判断黑白
+        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tagOur);
+        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
+        if(bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")){
+            model.addAttribute("bzlmOur","正常黑白部落");
+        }
+
+        String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(tagYou);
+        JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
+        if(bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")){
+            model.addAttribute("bzlmYou","正常黑白部落");
         }
 
         if (tagOur.equals(tagYou)) {
