@@ -4,7 +4,8 @@ import com.example.demo.clients.BZLMClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-public class DemoApplicationTests {
+@SpringBootTest
+class DemoApplicationTests {
 
     @Test
     void contextLoads() {
