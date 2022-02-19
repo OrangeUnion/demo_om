@@ -74,16 +74,18 @@
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color:green">赢方：</span>
                 <kbd class="shadow-sm" th:text="${win}"></kbd>
-                <span class="badge bg-primary" th:text="${omOur}"></span>
-                <span class="badge bg-info" th:text="${bzlmOur}"></span>
-                <span class="badge bg-light text-dark" th:text="${bzOurName}"></span>
+                <span class="badge bg-primary" th:text="${winOm}"></span>
+                <span class="badge bg-info" th:text="${winBz}"></span>
+                <!--<span class="badge bg-light text-dark" th:text="${winOm}"></span>
+                <span class="badge bg-light text-dark" th:text="${winBz}"></span>-->
             </p>
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color: red">输方：</span>
                 <kbd class="shadow-sm" th:text="${lose}"></kbd>
-                <span class="badge bg-primary" th:text="${omYou}"></span>
-                <span class="badge bg-info" th:text="${bzlmYou}"></span>
-                <span class="badge bg-light text-dark" th:text="${bzYouName}"></span>
+                <span class="badge bg-primary" th:text="${loseOm}"></span>
+                <span class="badge bg-info" th:text="${loseBz}"></span>
+                <!--<span class="badge bg-light text-dark" th:text="${loseOm}"></span>
+                <span class="badge bg-light text-dark" th:text="${loseBz}"></span>-->
             </p>
             <div class="d-grid gap-2 mb-3">
                 <a class="btn btn-outline-pop btn-lg shadow-sm rounded-pill fw-bold" style="letter-spacing: 3px" href="/">关闭</a>
