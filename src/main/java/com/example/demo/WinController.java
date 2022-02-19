@@ -150,10 +150,8 @@ public class WinController {
                 } else {
                     if (tagOur.length() < tagYou.length()) {
                         fightBegin = -1;
-                        break;
                     } else if (tagYou.length() < tagOur.length()) {
                         fightBegin = 1;
-                        break;
                     }
                 }
             }
