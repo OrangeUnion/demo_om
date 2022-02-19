@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="shortcut  icon" th:href="@{/img/titleom.svg}" type="image/x-icon" />
 </head>
-<body style="background: #c5b7a5">
+<body style="background: #e4ecf8">
 <nav class="navbar navbar-dark s-dark mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" style="color: #ffffff" href="/">
@@ -75,11 +75,13 @@
                 <span class="h6 fw-bold" style="color:green">赢方：</span>
                 <kbd class="shadow-sm" th:text="${win}"></kbd>
                 <span class="badge bg-primary" th:text="${omOur}"></span>
+                <span class="badge bg-info" th:text="${bzlmOur}"></span>
             </p>
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color: red">输方：</span>
                 <kbd class="shadow-sm" th:text="${lose}"></kbd>
                 <span class="badge bg-primary" th:text="${omYou}"></span>
+                <span class="badge bg-info" th:text="${bzlmYou}"></span>
             </p>
             <div class="d-grid gap-2 mb-3">
                 <a class="btn btn-outline-pop btn-lg shadow-sm rounded-pill fw-bold" style="letter-spacing: 3px" href="/">关闭</a>
