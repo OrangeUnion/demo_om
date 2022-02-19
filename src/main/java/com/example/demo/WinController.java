@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.clients.BZLMClient;
-import com.example.demo.utils.PrettyPrint;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,25 +37,25 @@ public class WinController {
         tagOur = tagOur.toUpperCase();
         tagYou = tagYou.toUpperCase();
         //0替换成O
-        tagOur = tagOur.replaceAll("0", "O");
-        tagYou = tagYou.replaceAll("0", "O");
+        tagOur = tagOur.replaceAll("O", "0");
+        tagYou = tagYou.replaceAll("O", "0");
         //删除多余#
         tagOur = "#" + tagOur.replaceAll("#", "");
         tagYou = "#" + tagYou.replaceAll("#", "");
 
         //判断O盟
-        String omDataOur = Api.getOmApi(tagOur.replaceAll("#",""));
+        String omDataOur = Api.getOmApi(tagOur.replaceAll("#", ""));
         if (omDataOur.contains("\"state\":\"正常\"")) {
             omOur = "正常O盟部落";
-            model.addAttribute("omOur","正常O盟部落");
+            model.addAttribute("omOur", "正常O盟部落");
             int first = omDataOur.lastIndexOf("\"name\":\"");
             int last = omDataOur.indexOf("\",\"state\"");
 //            omOurName = omDataOur.substring(first,last).replaceAll("\"name\":\"","");
         }
-        String omDataYou = Api.getOmApi(tagYou.replaceAll("#",""));
+        String omDataYou = Api.getOmApi(tagYou.replaceAll("#", ""));
         if (omDataYou.contains("\"state\":\"正常\"")) {
             omYou = "正常O盟部落";
-            model.addAttribute("omYou","正常O盟部落");
+            model.addAttribute("omYou", "正常O盟部落");
             int first = omDataYou.lastIndexOf("\"name\":\"");
             int last = omDataYou.indexOf("\",\"state\"");
 //            omYouName = omDataYou.substring(first,last).replaceAll("\"name\":\"","");
@@ -65,17 +64,17 @@ public class WinController {
         //判断黑白
         String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tagOur);
         JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
-        if(bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")){
+        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
             bzOur = "正常黑白部落";
-            model.addAttribute("bzlmOur","正常黑白部落");
+            model.addAttribute("bzlmOur", "正常黑白部落");
 //            bzOurName = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagOur);
         }
 
         String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(tagYou);
         JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
-        if(bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")){
+        if (bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")) {
             bzYou = "正常黑白部落";
-            model.addAttribute("bzlmYou","正常黑白部落");
+            model.addAttribute("bzlmYou", "正常黑白部落");
 //            bzYouName = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagYou);
         }
 
@@ -127,7 +126,6 @@ public class WinController {
         } else if (tagOur.charAt(3) < tagYou.charAt(3)) {
             fightTrd = -1;
         }
-        //计算前三位比对结果
         int he = fightFst + fightSnd + fightTrd;
         int fightBegin = 0;
         int tagLong = Math.max(tagOur.length(), tagYou.length());
@@ -136,32 +134,28 @@ public class WinController {
             fightBegin = 1;
         } else if (he < 0) {
             fightBegin = -1;
-        } else if (tagMin == 4) {
-            fightBegin = tagLong == tagOur.length() ? 1 : -1;
         } else {
-            //前三位相同从第四位开始推
+            //前三位相同从第四位开始推'
             for (int i = 4; i < tagLong; i++) {
-                if (tagOur.charAt(i) > tagYou.charAt(i)) {
+                int currOur = (i >= tagOur.length())?-1:(int)tagOur.charAt(i);
+                int currYou = (i >= tagYou.length())?-1:(int)tagYou.charAt(i);
+                if (currOur > currYou) {
                     fightBegin = 1;
                     break;
-                } else if (tagOur.charAt(i) < tagYou.charAt(i)) {
+                }
+                if (currOur < currYou) {
                     fightBegin = -1;
                     break;
-                } else {
-                    if (tagOur.length() < tagYou.length()) {
-                        fightBegin = -1;
-                    } else if (tagYou.length() < tagOur.length()) {
-                        fightBegin = 1;
-                    }
                 }
             }
         }
+
         //计算标签比对结果
         if ((fightBegin == 1 && clanFight == 1) || (fightBegin == -1 && clanFight == 2)) {
             model.addAttribute("msg", "赢");
             model.addAttribute("color", "color: green");
             model.addAttribute("win", tagOur);
-            model.addAttribute("lose",tagYou);
+            model.addAttribute("lose", tagYou);
             model.addAttribute("winOm", omOur);
             model.addAttribute("loseOm", omYou);
             model.addAttribute("winBz", bzOur);
@@ -170,7 +164,7 @@ public class WinController {
             model.addAttribute("msg", "输");
             model.addAttribute("color", "color: red");
             model.addAttribute("win", tagYou);
-            model.addAttribute("lose",tagOur);
+            model.addAttribute("lose", tagOur);
             model.addAttribute("winOm", omYou);
             model.addAttribute("loseOm", omOur);
             model.addAttribute("winBz", bzYou);
