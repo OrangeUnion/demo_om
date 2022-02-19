@@ -29,6 +29,9 @@ public class WinController {
             model.addAttribute("size", "display-3");
             return "index";
         }
+        //显示的名字
+        String displayOur = "";
+        String displayYou = "";
         //小写字母转大写
         tagOur = tagOur.toUpperCase();
         tagYou = tagYou.toUpperCase();
@@ -43,10 +46,12 @@ public class WinController {
         String omDataOur = Api.getOmApi(tagOur.replaceAll("#",""));
         if (omDataOur.contains("\"state\":\"正常\"")) {
             model.addAttribute("omOur","正常O盟部落");
+            displayOur = tagOur;
         }
         String omDataYou = Api.getOmApi(tagYou.replaceAll("#",""));
         if (omDataYou.contains("\"state\":\"正常\"")) {
             model.addAttribute("omYou","正常O盟部落");
+            displayYou = tagYou;
         }
 
         //判断黑白
@@ -54,12 +59,14 @@ public class WinController {
         JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
         if(bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")){
             model.addAttribute("bzlmOur","正常黑白部落");
+            displayOur = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagOur);
         }
 
         String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(tagYou);
         JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
         if(bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")){
             model.addAttribute("bzlmYou","正常黑白部落");
+            displayYou = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagYou);
         }
 
         if (tagOur.equals(tagYou)) {
@@ -145,30 +152,30 @@ public class WinController {
         if (fightBegin == 1 && clanFight == 1) {
             model.addAttribute("msg", "比大：赢");
             model.addAttribute("color", "color: green");
-            model.addAttribute("win", tagOur);
-            model.addAttribute("lose",tagYou);
+            model.addAttribute("win", displayOur);
+            model.addAttribute("lose",displayYou);
         } else if (fightBegin == -1 && clanFight == 1) {
             model.addAttribute("msg", "比大：输");
             model.addAttribute("color", "color: red");
-            model.addAttribute("win", tagYou);
-            model.addAttribute("lose",tagOur);
+            model.addAttribute("win", displayYou);
+            model.addAttribute("lose",displayOur);
         } else if (fightBegin == -1 && clanFight == 2) {
             model.addAttribute("msg", "比小：赢");
             model.addAttribute("color", "color: green");
-            model.addAttribute("win", tagOur);
-            model.addAttribute("lose",tagYou);
+            model.addAttribute("win", displayOur);
+            model.addAttribute("lose",displayYou);
         } else if (fightBegin == 1 && clanFight == 2) {
             model.addAttribute("msg", "比小：输");
             model.addAttribute("color", "color: red");
-            model.addAttribute("win", tagYou);
-            model.addAttribute("lose",tagOur);
+            model.addAttribute("win", displayYou);
+            model.addAttribute("lose",displayOur);
         } else {
             model.addAttribute("msg", "找迈向嗨！");
             model.addAttribute("color", "color: black");
         }
         //结果输出
-        model.addAttribute("our", tagOur);
-        model.addAttribute("you", tagYou);
+        model.addAttribute("our", displayOur);
+        model.addAttribute("you", displayYou);
         model.addAttribute("fight", clanFight);
         model.addAttribute("size", "display-3");
         return "index";
