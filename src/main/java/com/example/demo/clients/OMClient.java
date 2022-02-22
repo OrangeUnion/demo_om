@@ -24,7 +24,7 @@ public class OMClient {
         String color = null;
         if (omData.contains("\"state\":\"正常\"")) color = "badge bg-primary";
         if (omData.contains("\"state\":\"冻结\"")) color = "badge bg-info";
-        if (omData.contains("\"state\":\"寄生虫\"")) color = "badge bg-dark";
+        if (omData.contains("\"state\":\"寄生虫\"")) color = "badge bg-danger";
         return color;
     }
 
