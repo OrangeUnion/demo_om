@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.clients;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -9,18 +9,22 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
-public class Api {
-    public static void main(String[] args) {
-        String s = getOmApi("20RQL0Q8P");
-        String om = getOmApi("20RQL0Q8P");
-        if (om.contains("\"status\":0")) {
-            System.out.println("111");
-        } else {
-            System.out.println("222");
+public class OMClient {
+    public static String getOmStatus(String tag) {
+        String omData = getOmApi(tag.replaceAll("#", ""));
+        String status = null;
+        if (omData.contains("\"state\":\"正常\"")) {
+            status = "正常O盟部落";
         }
-        System.out.println(getOmApi("20RQL0Q8P"));
-
+        if (omData.contains("\"state\":\"冻结\"")) {
+            status = "部落已冻结";
+        }
+        if (omData.contains("\"state\":\"寄生虫\"")) {
+            status = "黑名单部落";
+        }
+        return status;
     }
+
     public static String getOmApi(String tag) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String url;

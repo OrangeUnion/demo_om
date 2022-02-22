@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.clients.BZLMClient;
+import com.example.demo.clients.OMClient;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,22 +45,23 @@ public class WinController {
         tagYou = "#" + tagYou.replaceAll("#", "");
 
         //判断O盟
-        String omDataOur = Api.getOmApi(tagOur.replaceAll("#", ""));
+        omOur = OMClient.getOmStatus(tagOur);
+        model.addAttribute("omOur", omOur);
+        omYou = OMClient.getOmStatus(tagYou);
+        model.addAttribute("omOur", omYou);
+        /*String omDataOur = Api.getOmApi(tagOur.replaceAll("#", ""));
         if (omDataOur.contains("\"state\":\"正常\"")) {
             omOur = "正常O盟部落";
             model.addAttribute("omOur", "正常O盟部落");
-            int first = omDataOur.lastIndexOf("\"name\":\"");
-            int last = omDataOur.indexOf("\",\"state\"");
-//            omOurName = omDataOur.substring(first,last).replaceAll("\"name\":\"","");
+        } else if (omDataOur.contains("\"state\": \"寄生虫\"")) {
+            omOur = "黑名单部落";
+            model.addAttribute("omOur", "黑名单部落");
         }
         String omDataYou = Api.getOmApi(tagYou.replaceAll("#", ""));
         if (omDataYou.contains("\"state\":\"正常\"")) {
             omYou = "正常O盟部落";
             model.addAttribute("omYou", "正常O盟部落");
-            int first = omDataYou.lastIndexOf("\"name\":\"");
-            int last = omDataYou.indexOf("\",\"state\"");
-//            omYouName = omDataYou.substring(first,last).replaceAll("\"name\":\"","");
-        }
+        }*/
 
         //判断黑白
         String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tagOur);
@@ -137,8 +139,8 @@ public class WinController {
         } else {
             //前三位相同从第四位开始推'
             for (int i = 4; i < tagLong; i++) {
-                int currOur = (i >= tagOur.length())?-1:(int)tagOur.charAt(i);
-                int currYou = (i >= tagYou.length())?-1:(int)tagYou.charAt(i);
+                int currOur = (i >= tagOur.length()) ? -1 : (int) tagOur.charAt(i);
+                int currYou = (i >= tagYou.length()) ? -1 : (int) tagYou.charAt(i);
                 if (currOur > currYou) {
                     fightBegin = 1;
                     break;
