@@ -46,22 +46,10 @@ public class WinController {
 
         //判断O盟
         omOur = OMClient.getOmStatus(tagOur);
-        model.addAttribute("omOur", omOur);
+        String statColOur = OMClient.getStatCol(tagOur);
+
         omYou = OMClient.getOmStatus(tagYou);
-        model.addAttribute("omOur", omYou);
-        /*String omDataOur = Api.getOmApi(tagOur.replaceAll("#", ""));
-        if (omDataOur.contains("\"state\":\"正常\"")) {
-            omOur = "正常O盟部落";
-            model.addAttribute("omOur", "正常O盟部落");
-        } else if (omDataOur.contains("\"state\": \"寄生虫\"")) {
-            omOur = "黑名单部落";
-            model.addAttribute("omOur", "黑名单部落");
-        }
-        String omDataYou = Api.getOmApi(tagYou.replaceAll("#", ""));
-        if (omDataYou.contains("\"state\":\"正常\"")) {
-            omYou = "正常O盟部落";
-            model.addAttribute("omYou", "正常O盟部落");
-        }*/
+        String statColYou = OMClient.getStatCol(tagYou);
 
         //判断黑白
         String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tagOur);
@@ -158,8 +146,12 @@ public class WinController {
             model.addAttribute("color", "color: green");
             model.addAttribute("win", tagOur);
             model.addAttribute("lose", tagYou);
+
             model.addAttribute("winOm", omOur);
             model.addAttribute("loseOm", omYou);
+            model.addAttribute("winColOm",statColOur);
+            model.addAttribute("loseColOm",statColYou);
+
             model.addAttribute("winBz", bzOur);
             model.addAttribute("loseBz", bzYou);
         } else if ((fightBegin == -1 && clanFight == 1) || (fightBegin == 1 && clanFight == 2)) {
@@ -167,8 +159,12 @@ public class WinController {
             model.addAttribute("color", "color: red");
             model.addAttribute("win", tagYou);
             model.addAttribute("lose", tagOur);
+
             model.addAttribute("winOm", omYou);
             model.addAttribute("loseOm", omOur);
+            model.addAttribute("winColOm",statColYou);
+            model.addAttribute("loseColOm",statColOur);
+
             model.addAttribute("winBz", bzYou);
             model.addAttribute("loseBz", bzOur);
         } else {

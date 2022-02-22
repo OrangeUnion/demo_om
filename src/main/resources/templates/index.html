@@ -74,7 +74,7 @@
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color:green">赢方：</span>
                 <kbd class="shadow-sm" th:text="${win}"></kbd>
-                <span class="badge bg-primary" th:text="${winOm}"></span>
+                <span th:class="${winColOm}" th:text="${winOm}"></span>
                 <span class="badge bg-info" th:text="${winBz}"></span>
                 <!--<span class="badge bg-light text-dark" th:text="${winOm}"></span>
                 <span class="badge bg-light text-dark" th:text="${winBz}"></span>-->
@@ -82,7 +82,7 @@
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color: red">输方：</span>
                 <kbd class="shadow-sm" th:text="${lose}"></kbd>
-                <span class="badge bg-primary" th:text="${loseOm}"></span>
+                <span th:class="${loseColOm}" th:text="${loseOm}"></span>
                 <span class="badge bg-info" th:text="${loseBz}"></span>
                 <!--<span class="badge bg-light text-dark" th:text="${loseOm}"></span>
                 <span class="badge bg-light text-dark" th:text="${loseBz}"></span>-->
