@@ -14,8 +14,8 @@ public class OMClient {
         String omData = getOmApi(tag.replaceAll("#", ""));
         String status = null;
         if (omData.contains("\"state\":\"正常\"")) status = "正常O盟部落";
-        if (omData.contains("\"state\":\"冻结\"")) status = "部落已冻结";
-        if (omData.contains("\"state\":\"寄生虫\"")) status = "黑名单部落";
+        if (omData.contains("\"state\":\"冻结\"")) status = "O盟冻结部落";
+        if (omData.contains("\"state\":\"寄生虫\"")) status = "O盟黑名单";
         return status;
     }
 
