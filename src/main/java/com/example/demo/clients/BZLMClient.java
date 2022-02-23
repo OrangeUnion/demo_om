@@ -47,4 +47,26 @@ public class BZLMClient {
                 .asString();
         return response;
     }
+
+    public static String getBzStatus(String tag) {
+        //判断黑白
+        String status = null;
+        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tag);
+        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
+        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
+            status = "正常黑白部落";
+        }
+        return status;
+    }
+
+    public static String getStatCol(String tag) {
+        //判断黑白
+        String color = null;
+        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tag);
+        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
+        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
+            color = "badge bg-primary";
+        }
+        return color;
+    }
 }

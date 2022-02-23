@@ -77,21 +77,11 @@ public class WinController {
         String omColLose = OMClient.getStatCol(loseTag);
 
         //判断黑白
-        String bzWin = null;
-        String bzLose = null;
-        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(winTag);
-        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
-        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
-            bzWin = "正常黑白部落";
-            model.addAttribute("bzlmOur", "正常黑白部落");
-        }
+        String bzWin = BZLMClient.getBzStatus(winTag);
+        String bzColWin = BZLMClient.getStatCol(winTag);
 
-        String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(loseTag);
-        JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
-        if (bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")) {
-            bzLose = "正常黑白部落";
-            model.addAttribute("bzlmYou", "正常黑白部落");
-        }
+        String bzLose = BZLMClient.getBzStatus(loseTag);
+        String bzColLose = BZLMClient.getStatCol(loseTag);
 
         //结果输出
         model.addAttribute("win", winTag);
@@ -104,6 +94,8 @@ public class WinController {
 
         model.addAttribute("winBz", bzWin);
         model.addAttribute("loseBz", bzLose);
+        model.addAttribute("winColBz",bzColWin);
+        model.addAttribute("loseColBz",bzColLose);
 
         model.addAttribute("our", tagOur);
         model.addAttribute("you", tagYou);
