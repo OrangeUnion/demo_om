@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.clients.BZLMClient;
 import com.example.demo.clients.OMClient;
+import com.example.demo.utils.WinOrLose;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +31,8 @@ public class WinController {
             return "index";
         }
         //显示的名字
-        String omOur = null;
-        String omYou = null;
-        String bzOur = null;
-        String bzYou = null;
+        String bzWin = null;
+        String bzLose = null;
         //小写字母转大写
         tagOur = tagOur.toUpperCase();
         tagYou = tagYou.toUpperCase();
@@ -43,30 +42,6 @@ public class WinController {
         //删除多余#
         tagOur = "#" + tagOur.replaceAll("#", "");
         tagYou = "#" + tagYou.replaceAll("#", "");
-
-        //判断O盟
-        omOur = OMClient.getOmStatus(tagOur);
-        String statColOur = OMClient.getStatCol(tagOur);
-
-        omYou = OMClient.getOmStatus(tagYou);
-        String statColYou = OMClient.getStatCol(tagYou);
-
-        //判断黑白
-        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(tagOur);
-        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
-        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
-            bzOur = "正常黑白部落";
-            model.addAttribute("bzlmOur", "正常黑白部落");
-//            bzOurName = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagOur);
-        }
-
-        String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(tagYou);
-        JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
-        if (bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")) {
-            bzYou = "正常黑白部落";
-            model.addAttribute("bzlmYou", "正常黑白部落");
-//            bzYouName = String.format("%s<%s>", bzlmOurResponse.getString("fullName"), tagYou);
-        }
 
         if (tagOur.equals(tagYou)) {
             model.addAttribute("msg", "同标签？");
@@ -95,83 +70,60 @@ public class WinController {
             clanFight = 2;
         }
         //比前三位标签大小
-        //比标签第一位大小
-        int fightFst = 0;
-        if (tagOur.charAt(1) > tagYou.charAt(1)) {
-            fightFst = 1;
-        } else if (tagOur.charAt(1) < tagYou.charAt(1)) {
-            fightFst = -1;
-        }
-        //比标签第二位大小
-        int fightSnd = 0;
-        if (tagOur.charAt(2) > tagYou.charAt(2)) {
-            fightSnd = 1;
-        } else if (tagOur.charAt(2) < tagYou.charAt(2)) {
-            fightSnd = -1;
-        }
-        //比标签第三位大小
-        int fightTrd = 0;
-        if (tagOur.charAt(3) > tagYou.charAt(3)) {
-            fightTrd = 1;
-        } else if (tagOur.charAt(3) < tagYou.charAt(3)) {
-            fightTrd = -1;
-        }
-        int he = fightFst + fightSnd + fightTrd;
-        int fightBegin = 0;
-        int tagLong = Math.max(tagOur.length(), tagYou.length());
-        int tagMin = Math.min(tagOur.length(), tagYou.length());
-        if (he > 0) {
-            fightBegin = 1;
-        } else if (he < 0) {
-            fightBegin = -1;
-        } else {
-            //前三位相同从第四位开始推'
-            for (int i = 4; i < tagLong; i++) {
-                int currOur = (i >= tagOur.length()) ? -1 : (int) tagOur.charAt(i);
-                int currYou = (i >= tagYou.length()) ? -1 : (int) tagYou.charAt(i);
-                if (currOur > currYou) {
-                    fightBegin = 1;
-                    break;
-                }
-                if (currOur < currYou) {
-                    fightBegin = -1;
-                    break;
-                }
-            }
-        }
+        int statWin = WinOrLose.win(tagOur,tagYou);
 
         //计算标签比对结果
-        if ((fightBegin == 1 && clanFight == 1) || (fightBegin == -1 && clanFight == 2)) {
+        String winTag = "";
+        String loseTag = "";
+        if (statWin == 1) {
+            winTag = tagOur;
+            loseTag = tagYou;
             model.addAttribute("msg", "赢");
             model.addAttribute("color", "color: green");
-            model.addAttribute("win", tagOur);
-            model.addAttribute("lose", tagYou);
-
-            model.addAttribute("winOm", omOur);
-            model.addAttribute("loseOm", omYou);
-            model.addAttribute("winColOm",statColOur);
-            model.addAttribute("loseColOm",statColYou);
-
-            model.addAttribute("winBz", bzOur);
-            model.addAttribute("loseBz", bzYou);
-        } else if ((fightBegin == -1 && clanFight == 1) || (fightBegin == 1 && clanFight == 2)) {
+        } else if (statWin == 2) {
+            winTag = tagYou;
+            loseTag = tagOur;
             model.addAttribute("msg", "输");
             model.addAttribute("color", "color: red");
-            model.addAttribute("win", tagYou);
-            model.addAttribute("lose", tagOur);
-
-            model.addAttribute("winOm", omYou);
-            model.addAttribute("loseOm", omOur);
-            model.addAttribute("winColOm",statColYou);
-            model.addAttribute("loseColOm",statColOur);
-
-            model.addAttribute("winBz", bzYou);
-            model.addAttribute("loseBz", bzOur);
         } else {
             model.addAttribute("msg", "无法判断！");
             model.addAttribute("color", "color: black");
         }
+
+        //判断O盟
+        String omWin = OMClient.getOmStatus(winTag);
+        String omColWin = OMClient.getStatCol(winTag);
+
+        String omLose = OMClient.getOmStatus(loseTag);
+        String omColLose = OMClient.getStatCol(loseTag);
+
+        //判断黑白
+        String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(winTag);
+        JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
+        if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
+            bzWin = "正常黑白部落";
+            model.addAttribute("bzlmOur", "正常黑白部落");
+        }
+
+        String bzlmDataYouString = BZLMClient.getBZLMAccountInfo(loseTag);
+        JSONObject bzlmYouResponse = new JSONObject(bzlmDataYouString);
+        if (bzlmYouResponse.getBoolean("exist") && !bzlmYouResponse.getBoolean("lock")) {
+            bzLose = "正常黑白部落";
+            model.addAttribute("bzlmYou", "正常黑白部落");
+        }
+
         //结果输出
+        model.addAttribute("win", winTag);
+        model.addAttribute("lose", loseTag);
+
+        model.addAttribute("winOm", omWin);
+        model.addAttribute("loseOm", omLose);
+        model.addAttribute("winColOm",omColWin);
+        model.addAttribute("loseColOm",omColLose);
+
+        model.addAttribute("winBz", bzWin);
+        model.addAttribute("loseBz", bzLose);
+
         model.addAttribute("our", tagOur);
         model.addAttribute("you", tagYou);
         model.addAttribute("fight", clanFight);

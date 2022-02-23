@@ -1,7 +1,7 @@
 package com.example.demo.utils;
 
 public class WinOrLose {
-    public static void win(String tagOur, String tagYou) {
+    public static int win(String tagOur, String tagYou) {
         int th = tagOur.charAt(3) + tagYou.charAt(3);
 
         //比前三位标签大小
@@ -42,5 +42,6 @@ public class WinOrLose {
         } else {
             statWin = 3;
         }
+        return statWin;
     }
 }
