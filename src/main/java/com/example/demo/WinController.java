@@ -39,13 +39,7 @@ public class WinController {
             model.addAttribute("size", "display-3");
             return "index";
         }
-        //#符号判断
-        if (tagOur.charAt(0) != '#') {
-            tagOur = "#" + tagOur;
-        }
-        if (tagYou.charAt(0) != '#') {
-            tagYou = "#" + tagYou;
-        }
+
         //判断标签大于三位
         if (tagOur.toCharArray().length < 4 || tagYou.toCharArray().length < 4) {
             model.addAttribute("msg", "标签过短？");
