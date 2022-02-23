@@ -22,7 +22,6 @@ public class WinController {
     public String win(@RequestParam("tagOur") String tagOur,
                       @RequestParam("tagYou") String tagYou,
                       Model model) {
-        int clanFight;
         //判断空值
         if (StringUtils.isEmpty(tagOur) || StringUtils.isEmpty(tagYou)) {
             model.addAttribute("msg", "标签为空~");
@@ -30,9 +29,6 @@ public class WinController {
             model.addAttribute("size", "display-3");
             return "index";
         }
-        //显示的名字
-        String bzWin = null;
-        String bzLose = null;
         //小写字母转大写
         tagOur = tagOur.toUpperCase();
         tagYou = tagYou.toUpperCase();
@@ -63,12 +59,7 @@ public class WinController {
             model.addAttribute("size", "display-3");
             return "index";
         }
-        int th = tagOur.charAt(3) + tagYou.charAt(3);
-        if (th % 2 == 0) {
-            clanFight = 1;
-        } else {
-            clanFight = 2;
-        }
+
         //比前三位标签大小
         int statWin = WinOrLose.win(tagOur,tagYou);
 
@@ -98,6 +89,8 @@ public class WinController {
         String omColLose = OMClient.getStatCol(loseTag);
 
         //判断黑白
+        String bzWin = null;
+        String bzLose = null;
         String bzlmDataOurString = BZLMClient.getBZLMAccountInfo(winTag);
         JSONObject bzlmOurResponse = new JSONObject(bzlmDataOurString);
         if (bzlmOurResponse.getBoolean("exist") && !bzlmOurResponse.getBoolean("lock")) {
@@ -126,7 +119,6 @@ public class WinController {
 
         model.addAttribute("our", tagOur);
         model.addAttribute("you", tagYou);
-        model.addAttribute("fight", clanFight);
         model.addAttribute("size", "display-3");
         return "index";
     }
