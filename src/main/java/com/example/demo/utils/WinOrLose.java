@@ -1,6 +1,11 @@
 package com.example.demo.utils;
 
 public class WinOrLose {
+    public static String ozTag(String tag) {
+        //小写字母转大写 0替换成O 删除多余#
+        tag = "#" + tag.toUpperCase().replaceAll("O", "0").replaceAll("#", "");
+        return tag;
+    }
     public static int win(String tagOur, String tagYou) {
         int th = tagOur.charAt(3) + tagYou.charAt(3);
 

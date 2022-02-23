@@ -29,15 +29,9 @@ public class WinController {
             model.addAttribute("size", "display-3");
             return "index";
         }
-        //小写字母转大写
-        tagOur = tagOur.toUpperCase();
-        tagYou = tagYou.toUpperCase();
-        //0替换成O
-        tagOur = tagOur.replaceAll("O", "0");
-        tagYou = tagYou.replaceAll("O", "0");
-        //删除多余#
-        tagOur = "#" + tagOur.replaceAll("#", "");
-        tagYou = "#" + tagYou.replaceAll("#", "");
+        //格式化标签
+        tagOur = WinOrLose.ozTag(tagOur);
+        tagYou = WinOrLose.ozTag(tagYou);
 
         if (tagOur.equals(tagYou)) {
             model.addAttribute("msg", "同标签？");
