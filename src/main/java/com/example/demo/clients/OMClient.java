@@ -6,26 +6,42 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OMClient {
-    public static String getOmStatus(String tag) {
-        String omData = getOmApi(tag.replaceAll("#", ""));
-        String status = null;
-        if (omData.contains("\"state\":\"正常\"")) status = "正常O盟部落";
-        if (omData.contains("\"state\":\"冻结\"")) status = "O盟冻结部落";
-        if (omData.contains("\"state\":\"寄生虫\"")) status = "O盟黑名单";
-        return status;
+    public static void main(String[] args) {
+        List<String> arrayList = getOmState("q82u2qr9");
+        System.out.println(arrayList.get(0));
     }
-
-    public static String getStatCol(String tag) {
+    public static List<String> getOmState(String tag) {
         String omData = getOmApi(tag.replaceAll("#", ""));
-        String color = null;
-        if (omData.contains("\"state\":\"正常\"")) color = "badge bg-primary";
-        if (omData.contains("\"state\":\"冻结\"")) color = "badge bg-info";
-        if (omData.contains("\"state\":\"寄生虫\"")) color = "badge bg-danger";
-        return color;
+        List<String> status = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(omData);
+        if (!jsonObject.isNull("data")) {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String state = data.getString("state");
+            if ("正常".equals(state)) {
+                status.add(0, "正常O盟部落");
+                status.add(1, "badge bg-primary");
+            }
+            if ("冻结".equals(state)) {
+                status.add(0, "O盟冻结部落");
+                status.add(1, "badge bg-info");
+            }
+            if ("寄生虫".equals(state)) {
+                status.add(0, "O盟黑名单");
+                status.add(1, "badge bg-danger");
+            }
+        } else {
+            status.add(0, null);
+            status.add(1, null);
+        }
+        return status;
     }
 
     public static String getOmApi(String tag) {

@@ -70,11 +70,11 @@ public class WinController {
         }
 
         //判断O盟
-        String omWin = OMClient.getOmStatus(winTag);
-        String omColWin = OMClient.getStatCol(winTag);
+        String omWin = OMClient.getOmState(winTag).get(0);
+        String omColWin = OMClient.getOmState(winTag).get(1);
 
-        String omLose = OMClient.getOmStatus(loseTag);
-        String omColLose = OMClient.getStatCol(loseTag);
+        String omLose = OMClient.getOmState(loseTag).get(0);
+        String omColLose = OMClient.getOmState(loseTag).get(1);
 
         //判断黑白
         String bzWin = BZLMClient.getBzStatus(winTag);
