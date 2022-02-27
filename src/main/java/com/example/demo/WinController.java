@@ -2,8 +2,8 @@ package com.example.demo;
 
 import com.example.demo.clients.BZLMClient;
 import com.example.demo.clients.OMClient;
+import com.example.demo.dataUtils.DataClient;
 import com.example.demo.utils.WinOrLose;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +49,7 @@ public class WinController {
         }
 
         //比前三位标签大小
-        int statWin = WinOrLose.win(tagOur,tagYou);
+        int statWin = WinOrLose.win(tagOur, tagYou);
 
         //计算标签比对结果
         String winTag = "";
@@ -68,6 +68,9 @@ public class WinController {
             model.addAttribute("msg", "无法判断！");
             model.addAttribute("color", "color: black");
         }
+
+        boolean state = "".equals(OMClient.getOmName(tagOur).get(0));
+        if (!state) DataClient.insertData(tagOur, OMClient.getOmName(tagOur).get(1), OMClient.getOmName(tagOur).get(2));
 
         //判断O盟
         String omWin = OMClient.getOmState(winTag).get(0);
@@ -89,13 +92,13 @@ public class WinController {
 
         model.addAttribute("winOm", omWin);
         model.addAttribute("loseOm", omLose);
-        model.addAttribute("winColOm",omColWin);
-        model.addAttribute("loseColOm",omColLose);
+        model.addAttribute("winColOm", omColWin);
+        model.addAttribute("loseColOm", omColLose);
 
         model.addAttribute("winBz", bzWin);
         model.addAttribute("loseBz", bzLose);
-        model.addAttribute("winColBz",bzColWin);
-        model.addAttribute("loseColBz",bzColLose);
+        model.addAttribute("winColBz", bzColWin);
+        model.addAttribute("loseColBz", bzColLose);
 
         model.addAttribute("our", tagOur);
         model.addAttribute("you", tagYou);

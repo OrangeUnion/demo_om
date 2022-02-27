@@ -17,6 +17,27 @@ public class OMClient {
         List<String> arrayList = getOmState("q82u2qr9");
         System.out.println(arrayList.get(0));
     }
+
+    public static List<String> getOmName(String tag) {
+        String omData = getOmApi(tag.replaceAll("#", ""));
+        List<String> status = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(omData);
+        if (!jsonObject.isNull("data")) {
+            JSONObject data = jsonObject.getJSONObject("data");
+            String clanTag = data.getString("tag");
+            String name = data.getString("name");
+            String state = data.getString("state");
+            status.add(0, clanTag);
+            status.add(1, name);
+            status.add(2, state);
+        } else {
+            status.add(0, null);
+            status.add(1, null);
+            status.add(2, null);
+        }
+        return status;
+    }
+
     public static List<String> getOmState(String tag) {
         String omData = getOmApi(tag.replaceAll("#", ""));
         List<String> status = new ArrayList<>();
@@ -24,6 +45,7 @@ public class OMClient {
         if (!jsonObject.isNull("data")) {
             JSONObject data = jsonObject.getJSONObject("data");
             String state = data.getString("state");
+            String name = data.getString("name");
             if ("正常".equals(state)) {
                 status.add(0, "正常O盟部落");
                 status.add(1, "badge bg-primary");
@@ -36,6 +58,7 @@ public class OMClient {
                 status.add(0, "O盟黑名单");
                 status.add(1, "badge bg-danger");
             }
+            status.add(2, name);
         } else {
             status.add(0, null);
             status.add(1, null);
