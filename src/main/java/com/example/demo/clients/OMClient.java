@@ -24,7 +24,7 @@ public class OMClient {
         JSONObject jsonObject = new JSONObject(omData);
         if (!jsonObject.isNull("data")) {
             JSONObject data = jsonObject.getJSONObject("data");
-            String clanTag = data.getString("tag");
+            String clanTag = data.getString("id");
             String name = data.getString("name");
             String state = data.getString("state");
             status.add(0, clanTag);
