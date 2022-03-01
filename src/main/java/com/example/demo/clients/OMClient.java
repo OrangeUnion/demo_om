@@ -31,9 +31,9 @@ public class OMClient {
             status.add(1, name);
             status.add(2, state);
         } else {
-            status.add(0, null);
-            status.add(1, null);
-            status.add(2, null);
+            status.add(0, "null");
+            status.add(1, "null");
+            status.add(2, "null");
         }
         return status;
     }

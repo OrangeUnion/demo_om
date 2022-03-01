@@ -69,8 +69,21 @@ public class WinController {
             model.addAttribute("color", "color: black");
         }
 
-        boolean state = "".equals(OMClient.getOmName(tagOur).get(0));
-        if (!state) DataClient.insertData(tagOur, OMClient.getOmName(tagOur).get(1), OMClient.getOmName(tagOur).get(2));
+        boolean state = "null".equals(OMClient.getOmName(tagOur).get(0));
+        boolean dataStatus = DataClient.searchData(tagOur) < 1;
+        if (dataStatus && !state) {
+            DataClient.insertData(tagOur, OMClient.getOmName(tagOur).get(1), OMClient.getOmName(tagOur).get(2));
+        }
+        boolean omYou = "null".equals(OMClient.getOmName(tagYou).get(0)) || "O盟黑名单".equals(OMClient.getOmState(tagYou).get(0));
+        boolean bzYou = BZLMClient.getBzStatus(tagYou) == null;
+        String you = null;
+        String youCol = null;
+        String wol = null;
+        if (omYou && bzYou) {
+            you = "外部";
+            youCol = "badge bg-warning";
+            wol = "匹配失败";
+        }
 
         //判断O盟
         String omWin = OMClient.getOmState(winTag).get(0);
@@ -99,6 +112,10 @@ public class WinController {
         model.addAttribute("loseBz", bzLose);
         model.addAttribute("winColBz", bzColWin);
         model.addAttribute("loseColBz", bzColLose);
+
+        model.addAttribute("youStat", you);
+        model.addAttribute("youCol", youCol);
+        model.addAttribute("wol", wol);
 
         model.addAttribute("our", tagOur);
         model.addAttribute("you", tagYou);

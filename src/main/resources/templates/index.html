@@ -69,7 +69,8 @@
         </div>
         <div class="card-body">
             <p class="mb-3">
-                <span th:class="${size}" th:style="${color}" th:text="${msg}"></span>
+                <span th:class="${size}" th:style="${color}" th:text="${msg}" th:if="${#strings.isEmpty(wol)}"></span>
+                <span th:class="${size}" style="color: #ffc400" th:text="${wol}"></span>
             </p>
             <p class="h6 mb-3" th:if="${not #strings.isEmpty(our)}">
                 <span class="h6 fw-bold" style="color:green">赢方：</span>
@@ -84,6 +85,7 @@
                 <kbd class="shadow-sm" th:text="${lose}"></kbd>
                 <span th:class="${loseColOm}" th:text="${loseOm}"></span>
                 <span th:class="${loseColBz}" th:text="${loseBz}"></span>
+                <span th:class="${youCol}" th:text="${youStat}"></span>
                 <!--<span class="badge bg-light text-dark" th:text="${loseOm}"></span>
                 <span class="badge bg-light text-dark" th:text="${loseBz}"></span>-->
             </p>
