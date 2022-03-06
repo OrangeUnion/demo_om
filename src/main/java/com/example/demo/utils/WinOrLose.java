@@ -1,5 +1,8 @@
 package com.example.demo.utils;
 
+import com.example.demo.clients.BZLMClient;
+import com.example.demo.clients.OMClient;
+
 public class WinOrLose {
     public static String ozTag(String tag) {
         //小写字母转大写 0替换成O 删除多余#
@@ -56,5 +59,11 @@ public class WinOrLose {
             statWin = 3;
         }
         return statWin;
+    }
+
+    public static boolean loseState(String tag) {
+        boolean om = "null".equals(OMClient.getOmName(tag).get(0)) || "O盟黑名单".equals(OMClient.getOmState(tag).get(0));
+        boolean bz = BZLMClient.getBzStatus(tag) == null;
+        return om && bz;
     }
 }

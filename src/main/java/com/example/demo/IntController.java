@@ -15,7 +15,7 @@ import org.thymeleaf.util.StringUtils;
 public class IntController {
     @GetMapping("getWin")
     public IntStatus win(@RequestParam("our") String our,
-                            @RequestParam("you") String you) {
+                         @RequestParam("you") String you) {
         String state;
         WinStatus winStatus = new WinStatus();
         LoseStatus loseStatus = new LoseStatus();
@@ -48,6 +48,14 @@ public class IntController {
         String bzOur = BZLMClient.getBzStatus(you);
         String bzYou = BZLMClient.getBzStatus(you);
 
+        //失败判断
+        String wol;
+        if (WinOrLose.loseState(you)) {
+            wol = "匹配失败";
+        } else {
+            wol = "匹配成功";
+        }
+
         int statWin = WinOrLose.win(our, you);
         //计算标签比对结果
         if (statWin == 1) {
@@ -75,6 +83,7 @@ public class IntController {
             intStatus.setState(state);
         }
 
+        intStatus.setLoseState(wol);
         intStatus.setWinTag(winStatus);
         intStatus.setLoseTag(loseStatus);
 

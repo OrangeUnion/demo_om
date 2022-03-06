@@ -77,13 +77,11 @@ public class WinController {
         }
 
         //失败判断
-        boolean omYou = "null".equals(OMClient.getOmName(tagYou).get(0)) || "O盟黑名单".equals(OMClient.getOmState(tagYou).get(0));
-        boolean bzYou = BZLMClient.getBzStatus(tagYou) == null;
         String youWin = null;
         String youLose = null;
         String youCol = null;
         String wol = null;
-        if (omYou && bzYou) {
+        if (WinOrLose.loseState(tagYou)) {
             if (tagYou.equals(winTag)) {
                 youWin = "外部";
             } else {
