@@ -52,8 +52,8 @@ public class WinController {
         int statWin = WinOrLose.newWin(tagOur, tagYou);
 
         //计算标签比对结果
-        String winTag = "";
-        String loseTag = "";
+        String winTag = "null";
+        String loseTag = "null";
         if (statWin == 1) {
             winTag = tagOur;
             loseTag = tagYou;
