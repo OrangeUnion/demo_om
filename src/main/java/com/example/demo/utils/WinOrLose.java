@@ -8,6 +8,12 @@ public class WinOrLose {
         if (tag.charAt(0) != '#') tag = "#" + tag;
         return tag;
     }
+    public static String urlTag(String tag) {
+        //小写字母转大写 0替换成O 删除多余#
+        tag = "#" + tag.toUpperCase().replaceAll("O", "0").replaceAll("#", "");
+        //#符号判断
+        return tag;
+    }
     public static int win(String tagOur, String tagYou) {
         int th = tagOur.charAt(3) + tagYou.charAt(3);
 
