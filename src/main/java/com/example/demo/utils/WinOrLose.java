@@ -63,7 +63,7 @@ public class WinOrLose {
         return statWin;
     }
 
-    public static boolean newWin(String tagOur, String tagYou) {
+    public static int newWin(String tagOur, String tagYou) {
         int ourWinNum = 0;
         int youWinNum = 0;
         for (int i = 1; i < Math.max(tagOur.length(), tagYou.length()); i++) {
@@ -75,7 +75,11 @@ public class WinOrLose {
             else youWinNum++;
         }
         boolean tempNum = (tagOur.charAt(3) + tagYou.charAt(3)) % 2 != 0;
-        return !tempNum && ourWinNum > youWinNum || tempNum && ourWinNum < youWinNum;
+        int statWin;
+        if (!tempNum && ourWinNum > youWinNum || tempNum && ourWinNum < youWinNum) statWin = 1;
+        else if (!tempNum && ourWinNum < youWinNum || tempNum && ourWinNum > youWinNum) statWin = 2;
+        else statWin = 3;
+        return statWin;
 
     }
 

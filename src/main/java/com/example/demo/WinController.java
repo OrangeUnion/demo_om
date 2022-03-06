@@ -49,13 +49,12 @@ public class WinController {
         }
 
         //比前三位标签大小
-        int statWin = WinOrLose.win(tagOur, tagYou);
-        boolean statNewWin = WinOrLose.newWin(tagOur, tagYou);
+        int statWin = WinOrLose.newWin(tagOur, tagYou);
 
         //计算标签比对结果
         String winTag = "";
         String loseTag = "";
-        /*if (statWin == 1) {
+        if (statWin == 1) {
             winTag = tagOur;
             loseTag = tagYou;
             model.addAttribute("msg", "赢");
@@ -68,17 +67,6 @@ public class WinController {
         } else {
             model.addAttribute("msg", "无法判断！");
             model.addAttribute("color", "color: black");
-        }*/
-        if (statNewWin) {
-            winTag = tagOur;
-            loseTag = tagYou;
-            model.addAttribute("msg", "赢");
-            model.addAttribute("color", "color: green");
-        } else {
-            winTag = tagYou;
-            loseTag = tagOur;
-            model.addAttribute("msg", "输");
-            model.addAttribute("color", "color: red");
         }
 
         //O盟统计
