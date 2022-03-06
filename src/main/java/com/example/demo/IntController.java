@@ -57,6 +57,7 @@ public class IntController {
         }
 
         int statWin = WinOrLose.win(our, you);
+        boolean statNewWin = WinOrLose.newWin(our, you);
         //计算标签比对结果
         if (statWin == 1) {
             state = "win";

@@ -11,12 +11,14 @@ public class WinOrLose {
         if (tag.charAt(0) != '#') tag = "#" + tag;
         return tag;
     }
+
     public static String urlTag(String tag) {
         //小写字母转大写 0替换成O 删除多余#
         tag = "#" + tag.toUpperCase().replaceAll("O", "0").replaceAll("#", "");
         //#符号判断
         return tag;
     }
+
     public static int win(String tagOur, String tagYou) {
         int th = tagOur.charAt(3) + tagYou.charAt(3);
 
@@ -59,6 +61,22 @@ public class WinOrLose {
             statWin = 3;
         }
         return statWin;
+    }
+
+    public static boolean newWin(String tagOur, String tagYou) {
+        int ourWinNum = 0;
+        int youWinNum = 0;
+        for (int i = 1; i < Math.max(tagOur.length(), tagYou.length()); i++) {
+            int currOur = i >= tagOur.length() ? -1 : tagOur.charAt(i);
+            int currYou = i >= tagYou.length() ? -1 : tagYou.charAt(i);
+            if (currOur == currYou) continue;
+            if (i > 3 && ourWinNum != youWinNum) break;
+            if (currOur > currYou) ourWinNum++;
+            else youWinNum++;
+        }
+        boolean tempNum = (tagOur.charAt(3) + tagYou.charAt(3)) % 2 != 0;
+        return !tempNum && ourWinNum > youWinNum || tempNum && ourWinNum < youWinNum;
+
     }
 
     public static boolean loseState(String tag) {
