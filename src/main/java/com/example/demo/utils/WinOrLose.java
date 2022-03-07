@@ -64,20 +64,19 @@ public class WinOrLose {
     }
 
     public static int newWin(String tagOur, String tagYou) {
-        int ourWinNum = 0;
-        int youWinNum = 0;
+        int sumNum = 0;
         for (int i = 1; i < Math.max(tagOur.length(), tagYou.length()); i++) {
             int currOur = i >= tagOur.length() ? -1 : tagOur.charAt(i);
             int currYou = i >= tagYou.length() ? -1 : tagYou.charAt(i);
             if (currOur == currYou) continue;
-            if (i > 3 && ourWinNum != youWinNum) break;
-            if (currOur > currYou) ourWinNum++;
-            else youWinNum++;
+            if (i > 3 && sumNum != 0) break;
+            if (currOur > currYou) sumNum++;
+            else sumNum--;
         }
         boolean tempNum = (tagOur.charAt(3) + tagYou.charAt(3)) % 2 != 0;
         int statWin;
-        if (!tempNum && ourWinNum > youWinNum || tempNum && ourWinNum < youWinNum) statWin = 1;
-        else if (!tempNum && ourWinNum < youWinNum || tempNum && ourWinNum > youWinNum) statWin = 2;
+        if (!tempNum && sumNum > 0 || tempNum && sumNum < 0) statWin = 1;
+        else if (!tempNum && sumNum < 0 || tempNum && sumNum > 0) statWin = 2;
         else statWin = 3;
         return statWin;
 
