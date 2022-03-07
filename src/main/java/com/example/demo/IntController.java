@@ -56,7 +56,7 @@ public class IntController {
             wol = "匹配成功";
         }
 
-        int statWin = WinOrLose.win(our, you);
+        int statWin = WinOrLose.newWin(our, you);
         //计算标签比对结果
         if (statWin == 1) {
             state = "win";
